@@ -1,20 +1,36 @@
 var path = require('path');
 var fs = require('fs');
 
-var exports = module.exports = function mkdirP (p, mode, f) {
+module.exports = mkdirP.mkdirp = mkdirP.mkdirP = mkdirP;
+
+function mkdirP (p, mode, f) {
     var cb = f || function () {};
+    if (typeof mode === 'string') mode = parseInt(mode, 8);
     p = path.resolve(p);
-    
-    var ps = path.normalize(p).split('/');
-    path.exists(p, function (exists) {
-        if (exists) cb(null);
-        else mkdirP(ps.slice(0,-1).join('/'), mode, function (err) {
-            if (err && err.code !== 'EEXIST') cb(err)
-            else fs.mkdir(p, mode, function (err) {
-                if (err && err.code !== 'EEXIST') cb(err)
-                else cb()
-            });
-        });
+
+    fs.mkdir(p, mode, function (er) {
+        if (!er) return cb();
+        switch (er.code) {
+            case 'ENOENT':
+                mkdirP(path.dirname(p), mode, function (er) {
+                    if (er) cb(er);
+                    else mkdirP(p, mode, cb);
+                });
+                break;
+
+            case 'EEXIST':
+                fs.stat(p, function (er2, stat) {
+                    // if the stat fails, then that's super weird.
+                    // let the original EEXIST be the failure reason.
+                    if (er2 || !stat.isDirectory()) cb(er);
+                    else if ((stat.mode & 0777) !== mode) fs.chmod(p, mode, cb);
+                    else cb();
+                });
+                break;
+
+            default:
+                cb(er);
+                break;
+        }
     });
-};
-exports.mkdirp = exports.mkdirP = module.exports;
+}

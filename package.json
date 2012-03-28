@@ -16,7 +16,7 @@
         "test" : "tap test/*.js"
     },
     "devDependencies" : {
-        "tap" : "0.0.x"
+        "tap" : "0.2"
     },
     "license" : "MIT/X11",
     "engines": { "node": "*" }

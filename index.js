@@ -9,7 +9,7 @@ function mkdirP (p, mode, f, made) {
         mode = 0777 & (~process.umask());
     }
     if (!made) made = null;
-    
+
     var cb = f || function () {};
     if (typeof mode === 'string') mode = parseInt(mode, 8);
     p = path.resolve(p);
@@ -27,6 +27,11 @@ function mkdirP (p, mode, f, made) {
                 });
                 break;
 
+            case 'EROFS':
+                // a read-only file system.
+                // However, the dir could already exist, in which case
+                // the EROFS error will be obscuring a EEXIST!
+                // Fallthrough to that case.
             case 'EEXIST':
                 fs.stat(p, function (er2, stat) {
                     // if the stat fails, then that's super weird.
@@ -48,7 +53,7 @@ mkdirP.sync = function sync (p, mode, made) {
         mode = 0777 & (~process.umask());
     }
     if (!made) made = null;
-    
+
     if (typeof mode === 'string') mode = parseInt(mode, 8);
     p = path.resolve(p);
 

@@ -27,6 +27,12 @@ function mkdirP (p, mode, f, made) {
                 });
                 break;
 
+            case 'EISDIR':
+            case 'EPERM':
+                // Operation not permitted or already is a dir.
+                // This is the error you get when trying to mkdir('c:/')
+                // on windows, or mkdir('/') on unix.  Make sure it's a
+                // dir by falling through to the EEXIST case.
             case 'EROFS':
                 // a read-only file system.
                 // However, the dir could already exist, in which case
@@ -35,7 +41,7 @@ function mkdirP (p, mode, f, made) {
             case 'EEXIST':
                 fs.stat(p, function (er2, stat) {
                     // if the stat fails, then that's super weird.
-                    // let the original EEXIST be the failure reason.
+                    // let the original error be the failure reason.
                     if (er2 || !stat.isDirectory()) cb(er, made)
                     else cb(null, made);
                 });

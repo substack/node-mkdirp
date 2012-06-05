@@ -38,6 +38,11 @@ function mkdirP (p, mode, f, made) {
                 // However, the dir could already exist, in which case
                 // the EROFS error will be obscuring a EEXIST!
                 // Fallthrough to that case.
+            case 'EPERM':
+                // no write permissions
+                // On Windows EPERM take precidence over EEXIST,
+                // so the directory may, in fact, exist
+                // Fallthrough to that case.
             case 'EEXIST':
                 fs.stat(p, function (er2, stat) {
                     // if the stat fails, then that's super weird.

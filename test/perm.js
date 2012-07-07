@@ -9,7 +9,7 @@ test('async perm', function (t) {
     
     mkdirp(file, 0755, function (err) {
         if (err) t.fail(err);
-        else path.exists(file, function (ex) {
+        else fs.exists(file, function (ex) {
             if (!ex) t.fail('file not created')
             else fs.stat(file, function (err, stat) {
                 if (err) t.fail(err)

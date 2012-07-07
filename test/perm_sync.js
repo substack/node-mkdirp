@@ -8,7 +8,7 @@ test('sync perm', function (t) {
     var file = '/tmp/' + (Math.random() * (1<<30)).toString(16) + '.json';
     
     mkdirp.sync(file, 0755);
-    path.exists(file, function (ex) {
+    fs.exists(file, function (ex) {
         if (!ex) t.fail('file not created')
         else fs.stat(file, function (err, stat) {
             if (err) t.fail(err)
@@ -26,7 +26,7 @@ test('sync root perm', function (t) {
     
     var file = '/tmp';
     mkdirp.sync(file, 0755);
-    path.exists(file, function (ex) {
+    fs.exists(file, function (ex) {
         if (!ex) t.fail('file not created')
         else fs.stat(file, function (err, stat) {
             if (err) t.fail(err)

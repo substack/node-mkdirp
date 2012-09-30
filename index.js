@@ -11,7 +11,6 @@ function mkdirP (p, mode, f, made) {
     if (!made) made = null;
 
     var cb = f || function () {};
-    if (typeof mode === 'string') mode = parseInt(mode, 8);
     p = path.resolve(p);
 
     fs.mkdir(p, mode, function (er) {
@@ -48,7 +47,6 @@ mkdirP.sync = function sync (p, mode, made) {
     }
     if (!made) made = null;
 
-    if (typeof mode === 'string') mode = parseInt(mode, 8);
     p = path.resolve(p);
 
     try {

@@ -10,13 +10,14 @@ example
 
 pow.js
 ------
-    var mkdirp = require('mkdirp');
+```js
+var mkdirp = require('mkdirp');
     
-    mkdirp('/tmp/foo/bar/baz', function (err) {
-        if (err) console.error(err)
-        else console.log('pow!')
-    });
-
+mkdirp('/tmp/foo/bar/baz', function (err) {
+    if (err) console.error(err)
+    else console.log('pow!')
+});
+```
 Output
     pow!
 
@@ -24,9 +25,9 @@ And now /tmp/foo/bar/baz exists, huzzah!
 
 methods
 =======
-
+```js
 var mkdirp = require('mkdirp');
-
+```
 mkdirp(dir, mode, cb)
 ---------------------
 

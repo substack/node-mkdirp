@@ -58,6 +58,10 @@ With [npm](http://npmjs.org) do:
 npm install mkdirp
 ```
 
+# rm -rf
+
+If you need to remove a directory recursively, check out [rimraf](https://github.com/isaacs/rimraf)
+
 # license
 
 MIT

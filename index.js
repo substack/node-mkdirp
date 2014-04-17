@@ -6,7 +6,7 @@ module.exports = mkdirP.mkdirp = mkdirP.mkdirP = mkdirP;
 function mkdirP (p, mode, f, made) {
     if (typeof mode === 'function' || mode === undefined) {
         f = mode;
-        mode = 0777 & (~process.umask());
+        mode = parseInt('0777',8) & (~process.umask());
     }
     if (!made) made = null;
 
@@ -44,7 +44,7 @@ function mkdirP (p, mode, f, made) {
 
 mkdirP.sync = function sync (p, mode, made) {
     if (mode === undefined) {
-        mode = 0777 & (~process.umask());
+        mode = parseInt('0777',8) & (~process.umask());
     }
     if (!made) made = null;
 

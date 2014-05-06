@@ -34,7 +34,7 @@ function mkdirP (p, mode, f, made) {
                 fs.stat(p, function (er2, stat) {
                     // if the stat fails, then that's super weird.
                     // let the original error be the failure reason.
-                    if (er2 || !stat.isDirectory()) cb(er, made)
+                    if (er2 || !stat.isDirectory()) cb(er, made);
                     else cb(null, made);
                 });
                 break;

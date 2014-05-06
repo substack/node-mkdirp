@@ -13,7 +13,7 @@ for (var i = 0; i < 25; i++) {
 var file = ps.join('/');
 
 test('chmod-pre', function (t) {
-    var mode = 0744
+    var mode = 0744;
     mkdirp(file, mode, function (er) {
         t.ifError(er, 'should not error');
         fs.stat(file, function (er, stat) {
@@ -26,7 +26,7 @@ test('chmod-pre', function (t) {
 });
 
 test('chmod', function (t) {
-    var mode = 0755
+    var mode = 0755;
     mkdirp(file, mode, function (er) {
         t.ifError(er, 'should not error');
         fs.stat(file, function (er, stat) {

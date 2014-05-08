@@ -3,6 +3,8 @@ var fs = require('fs');
 
 module.exports = mkdirP.mkdirp = mkdirP.mkdirP = mkdirP;
 
+var Octal077 = parseInt("0777", 8);
+
 function mkdirP (p, opts, f, made) {
     if (typeof opts === 'function') {
         f = opts;
@@ -16,7 +18,7 @@ function mkdirP (p, opts, f, made) {
     var xfs = opts.fs || fs;
     
     if (mode === undefined) {
-        mode = 0777 & (~process.umask());
+        mode = Octal077 & (~process.umask());
     }
     if (!made) made = null;
     
@@ -43,7 +45,7 @@ function mkdirP (p, opts, f, made) {
                 xfs.stat(p, function (er2, stat) {
                     // if the stat fails, then that's super weird.
                     // let the original error be the failure reason.
-                    if (er2 || !stat.isDirectory()) cb(er, made)
+                    if (er2 || !stat.isDirectory()) cb(er, made);
                     else cb(null, made);
                 });
                 break;
@@ -60,7 +62,7 @@ mkdirP.sync = function sync (p, opts, made) {
     var xfs = opts.fs || fs;
     
     if (mode === undefined) {
-        mode = 0777 & (~process.umask());
+        mode = Octal077 & (~process.umask());
     }
     if (!made) made = null;
 

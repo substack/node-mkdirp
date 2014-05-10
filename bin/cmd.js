@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+'use strict';
 
 var mkdirp = require('../');
 var minimist = require('minimist');

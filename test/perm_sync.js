@@ -8,12 +8,12 @@ test('sync perm', function (t) {
     t.plan(4);
     var file = '/tmp/' + (Math.random() * (1<<30)).toString(16) + '.json';
     
-    mkdirp.sync(file, 0755);
+    mkdirp.sync(file, parseInt(755, 8));
     exists(file, function (ex) {
         t.ok(ex, 'file created');
         fs.stat(file, function (err, stat) {
             t.ifError(err);
-            t.equal(stat.mode & 0777, 0755);
+            t.equal(stat.mode & parseInt(777, 8), parseInt(755, 8));
             t.ok(stat.isDirectory(), 'target not a directory');
         });
     });
@@ -23,7 +23,7 @@ test('sync root perm', function (t) {
     t.plan(3);
     
     var file = '/tmp';
-    mkdirp.sync(file, 0755);
+    mkdirp.sync(file, parseInt(755, 8));
     exists(file, function (ex) {
         t.ok(ex, 'file created');
         fs.stat(file, function (err, stat) {

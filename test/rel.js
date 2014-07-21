@@ -15,14 +15,14 @@ test('rel', function (t) {
     
     var file = [x,y,z].join('/');
     
-    mkdirp(file, 0755, function (err) {
+    mkdirp(file, parseInt(755, 8), function (err) {
         t.ifError(err);
         exists(file, function (ex) {
             t.ok(ex, 'file created');
             fs.stat(file, function (err, stat) {
                 t.ifError(err);
                 process.chdir(cwd);
-                t.equal(stat.mode & 0777, 0755);
+                t.equal(stat.mode & parseInt(777, 8), parseInt(755, 8));
                 t.ok(stat.isDirectory(), 'target not a directory');
             })
         })

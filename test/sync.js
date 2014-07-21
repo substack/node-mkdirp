@@ -13,7 +13,7 @@ test('sync', function (t) {
     var file = '/tmp/' + [x,y,z].join('/');
 
     try {
-        mkdirp.sync(file, 0755);
+        mkdirp.sync(file, parseInt(755, 8));
     } catch (err) {
         t.fail(err);
         return t.end();
@@ -23,7 +23,7 @@ test('sync', function (t) {
         t.ok(ex, 'file created');
         fs.stat(file, function (err, stat) {
             t.ifError(err);
-            t.equal(stat.mode & 0777, 0755);
+            t.equal(stat.mode & parseInt(777, 8), parseInt(755, 8));
             t.ok(stat.isDirectory(), 'target not a directory');
         });
     });

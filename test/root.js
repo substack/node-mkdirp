@@ -7,7 +7,7 @@ test('root', function (t) {
     // '/' on unix, 'c:/' on windows.
     var file = path.resolve('/');
 
-    mkdirp(file, 0755, function (err) {
+    mkdirp(file, parseInt(755, 8), function (err) {
         if (err) throw err
         fs.stat(file, function (er, stat) {
             if (er) throw er

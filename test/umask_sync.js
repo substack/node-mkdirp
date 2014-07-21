@@ -23,7 +23,7 @@ test('umask sync modes', function (t) {
         t.ok(ex, 'file created');
         fs.stat(file, function (err, stat) {
             t.ifError(err);
-            t.equal(stat.mode & 0777, (0777 & (~process.umask())));
+            t.equal(stat.mode & parseInt(777, 8), (parseInt(777, 8) & (~process.umask())));
             t.ok(stat.isDirectory(), 'target not a directory');
         });
     });

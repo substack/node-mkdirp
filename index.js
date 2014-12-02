@@ -16,7 +16,7 @@ function mkdirP (p, opts, f, made) {
     var xfs = opts.fs || fs;
     
     if (mode === undefined) {
-        mode = 0777 & (~process.umask());
+        mode = '0777' & (~process.umask());
     }
     if (!made) made = null;
     
@@ -60,7 +60,7 @@ mkdirP.sync = function sync (p, opts, made) {
     var xfs = opts.fs || fs;
     
     if (mode === undefined) {
-        mode = 0777 & (~process.umask());
+        mode = '0777' & (~process.umask());
     }
     if (!made) made = null;
 

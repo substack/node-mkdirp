@@ -3,6 +3,11 @@ var fs = require('fs');
 
 module.exports = mkdirP.mkdirp = mkdirP.mkdirP = mkdirP;
 
+function errorCode(err)
+{
+    return err.code || err.message;
+}
+
 function mkdirP (p, opts, f, made) {
     if (typeof opts === 'function') {
         f = opts;
@@ -28,7 +33,7 @@ function mkdirP (p, opts, f, made) {
             made = made || p;
             return cb(null, made);
         }
-        switch (er.code) {
+        switch (errorCode(er)) {
             case 'ENOENT':
                 mkdirP(path.dirname(p), opts, function (er, made) {
                     if (er) cb(er, made);
@@ -71,7 +76,7 @@ mkdirP.sync = function sync (p, opts, made) {
         made = made || p;
     }
     catch (err0) {
-        switch (err0.code) {
+        switch (errorCode(err0)) {
             case 'ENOENT' :
                 made = sync(path.dirname(p), opts, made);
                 sync(p, opts, made);

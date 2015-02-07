@@ -21,7 +21,7 @@
   "devDependencies": {
     "tap": "~0.4.0",
     "mock-fs": "~2.2.0",
-    "mockfs": "^0.1.5",
+    "mockfs": "^0.1.5"
   },
   "bin": "bin/cmd.js",
   "license": "MIT"

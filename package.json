@@ -13,14 +13,18 @@
     "url": "https://github.com/substack/node-mkdirp.git"
   },
   "scripts": {
-    "test": "tap test/*.js"
+    "test": "tap test/*.js",
+    "coverage": "nyc npm test && nyc report",
+    "coveralls": "nyc npm test && nyc report --reporter=text-lcov | coveralls"
   },
   "dependencies": {
     "minimist": "0.0.8"
   },
   "devDependencies": {
-    "tap": "1",
-    "mock-fs": "2 >=2.7.0"
+    "coveralls": "^2.11.2",
+    "mock-fs": "2 >=2.7.0",
+    "nyc": "^2.1.4",
+    "tap": "1"
   },
   "bin": "bin/cmd.js",
   "license": "MIT"

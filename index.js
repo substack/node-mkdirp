@@ -12,18 +12,18 @@ function mkdirP (p, opts, f, made) {
     else if (!opts || typeof opts !== 'object') {
         opts = { mode: opts };
     }
-    
+
     var mode = opts.mode;
     var xfs = opts.fs || fs;
-    
+
     if (mode === undefined) {
         mode = _0777 & (~process.umask());
     }
     if (!made) made = null;
-    
+
     var cb = f || function () {};
     p = path.resolve(p);
-    
+
     xfs.mkdir(p, mode, function (er) {
         if (!er) {
             made = made || p;
@@ -43,9 +43,15 @@ function mkdirP (p, opts, f, made) {
             default:
                 xfs.stat(p, function (er2, stat) {
                     // if the stat fails, then that's super weird.
-                    // let the original error be the failure reason.
-                    if (er2 || !stat.isDirectory()) cb(er, made)
-                    else cb(null, made);
+                    if (er2 || !stat.isDirectory()) {
+                        // possible race condition after mkdir reported EEXIST?
+                        if (er2 && er2.code === 'ENOENT') mkdirP(p, opts, cb, made);
+                        // let the original error be the failure reason.
+                        else cb(er, made);
+                    }
+                    else {
+                        cb(null, made);
+                    }
                 });
                 break;
         }
@@ -56,10 +62,10 @@ mkdirP.sync = function sync (p, opts, made) {
     if (!opts || typeof opts !== 'object') {
         opts = { mode: opts };
     }
-    
+
     var mode = opts.mode;
     var xfs = opts.fs || fs;
-    
+
     if (mode === undefined) {
         mode = _0777 & (~process.umask());
     }
@@ -87,6 +93,8 @@ mkdirP.sync = function sync (p, opts, made) {
                     stat = xfs.statSync(p);
                 }
                 catch (err1) {
+                    // possible race condition after mkdir reported EEXIST?
+                    if (err1.code === 'ENOENT') return sync(p, opts, made);
                     throw err0;
                 }
                 if (!stat.isDirectory()) throw err0;

@@ -31,6 +31,8 @@ function mkdirP (p, opts, f, made) {
         }
         switch (er.code) {
             case 'ENOENT':
+                // If there's a null byte in the filename that's an error we can't recover from
+                if (p.match(/\0/)) { return cb(er); }
                 mkdirP(path.dirname(p), opts, function (er, made) {
                     if (er) cb(er, made);
                     else mkdirP(p, opts, cb, made);
@@ -74,6 +76,8 @@ mkdirP.sync = function sync (p, opts, made) {
     catch (err0) {
         switch (err0.code) {
             case 'ENOENT' :
+                // If there's a null byte in the filename that's an error we can't recover from
+                if (p.match(/\0/)) { return cb(er); }
                 made = sync(path.dirname(p), opts, made);
                 sync(p, opts, made);
                 break;

@@ -4,6 +4,7 @@
   "version": "0.5.1",
   "author": "James Halliday <mail@substack.net> (http://substack.net)",
   "main": "index.js",
+  "files": ["index.js", "bin/"],
   "keywords": [
     "mkdir",
     "directory"

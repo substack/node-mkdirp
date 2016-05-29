@@ -1,0 +1,13 @@
+.idea/
+typings/
+*.js
+*.map
+logs/
+*.log
+npm-debug.log*
+pids
+*.pid
+*.seed
+lib-cov/
+coverage/
+node_modules/

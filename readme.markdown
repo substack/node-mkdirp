@@ -23,7 +23,7 @@ Output
 pow!
 ```
 
-And now /tmp/foo/bar/baz exists, huzzah!
+And now `/tmp/foo/bar/baz` exists, huzzah!
 
 # methods
 

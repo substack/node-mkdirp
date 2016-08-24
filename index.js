@@ -85,11 +85,11 @@ mkdirP.sync = function sync (p, opts, made) {
                 var stat;
                 try {
                     stat = xfs.statSync(p);
+                    if (!stat.isDirectory()) throw err1;
                 }
                 catch (err1) {
                     throw err0;
                 }
-                if (!stat.isDirectory()) throw err0;
                 break;
         }
     }

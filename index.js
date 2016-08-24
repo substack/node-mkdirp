@@ -34,7 +34,7 @@ function mkdirP (p, opts, f, made) {
                 mkdirP(path.dirname(p), opts, function (er, made) {
                     if (er) cb(er, made);
                     else mkdirP(p, opts, cb, made);
-                });
+                }, made);
                 break;
 
             // In the case of any other error, just see if there's a dir

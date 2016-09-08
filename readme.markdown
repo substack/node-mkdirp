@@ -2,16 +2,16 @@
 
 Like `mkdir -p`, but in node.js!
 
-[![build status](https://secure.travis-ci.org/substack/node-mkdirp.png)](http://travis-ci.org/substack/node-mkdirp)
+[![build status](https://secure.travis-ci.org/substack/node-mkdirp.svg)](http://travis-ci.org/substack/node-mkdirp)
 
 # example
 
 ## pow.js
 
 ```js
-var mkdirp = require('mkdirp');
+const mkdirp = require('mkdirp');
     
-mkdirp('/tmp/foo/bar/baz', function (err) {
+mkdirp('/tmp/foo/bar/baz', err => {
     if (err) console.error(err)
     else console.log('pow!')
 });
@@ -28,7 +28,7 @@ And now /tmp/foo/bar/baz exists, huzzah!
 # methods
 
 ```js
-var mkdirp = require('mkdirp');
+const mkdirp = require('mkdirp');
 ```
 
 ## mkdirp(dir, opts, cb)
@@ -84,7 +84,7 @@ OPTIONS are:
 With [npm](http://npmjs.org) do:
 
 ```
-npm install mkdirp
+npm install mkdirp --save
 ```
 
 to get the library, or

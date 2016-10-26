@@ -3,22 +3,18 @@ var path = require('path');
 var fs = require('fs');
 var exists = fs.exists || path.exists;
 var test = require('tap').test;
+var testUtils = require('./utils/');
 var _0777 = parseInt('0777', 8);
 var _0755 = parseInt('0755', 8);
 
+var tmpDir = testUtils.mktemp('/tmp/node-mkdirp_test_');
+
+// Two mkdirp() requests on the same dir should succeed.
 test('race', function (t) {
     t.plan(10);
-    var ps = [ '', 'tmp' ];
-    
-    for (var i = 0; i < 25; i++) {
-        var dir = Math.floor(Math.random() * Math.pow(16,4)).toString(16);
-        ps.push(dir);
-    }
-    var file = ps.join('/');
-    
-    var res = 2;
+
+    var file = testUtils.randomDeepFile(tmpDir, 25, 4);
     mk(file);
-    
     mk(file);
     
     function mk (file, cb) {
@@ -34,4 +30,9 @@ test('race', function (t) {
             })
         });
     }
+});
+
+test('cleanup', function(t) {
+  testUtils.cleanup(tmpDir);
+  t.end();
 });

@@ -2,24 +2,38 @@ var mkdirp = require('../');
 var path = require('path');
 var fs = require('fs');
 var test = require('tap').test;
+var testUtils = require('./utils/');
+
+var tmpDir = testUtils.mktemp('/tmp/node-mkdirp_test_');
 
 test('return value', function (t) {
     t.plan(4);
-    var x = Math.floor(Math.random() * Math.pow(16,4)).toString(16);
-    var y = Math.floor(Math.random() * Math.pow(16,4)).toString(16);
-    var z = Math.floor(Math.random() * Math.pow(16,4)).toString(16);
 
-    var file = '/tmp/' + [x,y,z].join('/');
+    // mkdirp returns the first dir created. Ensure /tmp exists.
+    try {
+      fs.mkdirSync('/tmp');
+    }
+    catch (err) {
+      if (err.code !== 'EEXIST')
+      {
+        t.fail(err);
+        return t.end();
+      }
+    }
 
-    // should return the first dir created.
-    // By this point, it would be profoundly surprising if /tmp didn't
-    // already exist, since every other test makes things in there.
+    var file = testUtils.randomDeepFile(tmpDir, 3, 4);
+
     mkdirp(file, function (err, made) {
         t.ifError(err);
-        t.equal(made, '/tmp/' + x);
+        t.equal(made, file.split('/').slice(0, 3).join('/'));
         mkdirp(file, function (err, made) {
           t.ifError(err);
           t.equal(made, null);
         });
     });
+});
+
+test('cleanup', function(t) {
+  testUtils.cleanup(tmpDir);
+  t.end();
 });

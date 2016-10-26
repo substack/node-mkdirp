@@ -3,19 +3,21 @@ var path = require('path');
 var fs = require('fs');
 var exists = fs.exists || path.exists;
 var test = require('tap').test;
+var testUtils = require('./utils/');
 var _0777 = parseInt('0777', 8);
 var _0755 = parseInt('0755', 8);
 
-test('rel', function (t) {
+var tmpDir = testUtils.mktemp('/tmp/node-mkdirp_test_');
+
+test('mkdirp with relative path', function (t) {
     t.plan(5);
-    var x = Math.floor(Math.random() * Math.pow(16,4)).toString(16);
-    var y = Math.floor(Math.random() * Math.pow(16,4)).toString(16);
-    var z = Math.floor(Math.random() * Math.pow(16,4)).toString(16);
     
     var cwd = process.cwd();
-    process.chdir('/tmp');
+
+    fs.mkdirSync(tmpDir);
+    process.chdir(tmpDir);
     
-    var file = [x,y,z].join('/');
+    var file = testUtils.randomDeepFile('', 3, 4);
     
     mkdirp(file, _0755, function (err) {
         t.ifError(err);
@@ -29,4 +31,9 @@ test('rel', function (t) {
             })
         })
     });
+});
+
+test('cleanup', function(t) {
+  testUtils.cleanup(tmpDir);
+  t.end();
 });

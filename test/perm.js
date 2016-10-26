@@ -3,12 +3,15 @@ var path = require('path');
 var fs = require('fs');
 var exists = fs.exists || path.exists;
 var test = require('tap').test;
+var testUtils = require('./utils/');
 var _0777 = parseInt('0777', 8);
 var _0755 = parseInt('0755', 8);
 
+var tmpDir = testUtils.mktemp('/tmp/node-mkdirp_test_');
+
 test('async perm', function (t) {
     t.plan(5);
-    var file = '/tmp/' + (Math.random() * (1<<30)).toString(16);
+    var file = testUtils.randomDeepFile(tmpDir, 1, 4);
     
     mkdirp(file, _0755, function (err) {
         t.ifError(err);
@@ -24,8 +27,14 @@ test('async perm', function (t) {
 });
 
 test('async root perm', function (t) {
-    mkdirp('/tmp', _0755, function (err) {
+    var file = '/tmp';
+    mkdirp(file, _0755, function (err) {
         if (err) t.fail(err);
         t.end();
     });
+});
+
+test('cleanup', function(t) {
+  testUtils.cleanup(tmpDir);
+  t.end();
 });

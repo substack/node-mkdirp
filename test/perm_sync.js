@@ -3,12 +3,15 @@ var path = require('path');
 var fs = require('fs');
 var exists = fs.exists || path.exists;
 var test = require('tap').test;
+var testUtils = require('./utils/');
 var _0777 = parseInt('0777', 8);
 var _0755 = parseInt('0755', 8);
 
+var tmpDir = testUtils.mktemp('/tmp/node-mkdirp_test_');
+
 test('sync perm', function (t) {
     t.plan(4);
-    var file = '/tmp/' + (Math.random() * (1<<30)).toString(16) + '.json';
+    var file = testUtils.randomDeepFile(tmpDir, 1, 4);
     
     mkdirp.sync(file, _0755);
     exists(file, function (ex) {
@@ -33,4 +36,9 @@ test('sync root perm', function (t) {
             t.ok(stat.isDirectory(), 'target not a directory');
         })
     });
+});
+
+test('cleanup', function(t) {
+  testUtils.cleanup(tmpDir);
+  t.end();
 });

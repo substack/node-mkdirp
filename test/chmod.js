@@ -2,18 +2,13 @@ var mkdirp = require('../').mkdirp;
 var path = require('path');
 var fs = require('fs');
 var test = require('tap').test;
+var testUtils = require('./utils/');
 var _0777 = parseInt('0777', 8);
 var _0755 = parseInt('0755', 8);
 var _0744 = parseInt('0744', 8);
 
-var ps = [ '', 'tmp' ];
-
-for (var i = 0; i < 25; i++) {
-    var dir = Math.floor(Math.random() * Math.pow(16,4)).toString(16);
-    ps.push(dir);
-}
-
-var file = ps.join('/');
+var tmpDir = testUtils.mktemp('/tmp/node-mkdirp_test_');
+var file = testUtils.randomDeepFile(tmpDir, 25, 4);
 
 test('chmod-pre', function (t) {
     var mode = _0744
@@ -38,4 +33,9 @@ test('chmod', function (t) {
             t.end();
         });
     });
+});
+
+test('cleanup', function(t) {
+  testUtils.cleanup(tmpDir);
+  t.end();
 });

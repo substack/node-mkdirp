@@ -2,20 +2,14 @@ var mkdirp = require('../').mkdirp;
 var path = require('path');
 var fs = require('fs');
 var test = require('tap').test;
+var testUtils = require('./utils/');
 var _0755 = parseInt('0755', 8);
 
-var ps = [ '', 'tmp' ];
-
-for (var i = 0; i < 25; i++) {
-    var dir = Math.floor(Math.random() * Math.pow(16,4)).toString(16);
-    ps.push(dir);
-}
-
-var file = ps.join('/');
+var tmpDir = testUtils.mktemp('/tmp/node-mkdirp_test_');
+var file = testUtils.randomDeepFile(tmpDir, 25, 4);
 
 // a file in the way
-var itw = ps.slice(0, 3).join('/');
-
+var itw = file.split('/').slice(0, 3).join('/');
 
 test('clobber-pre', function (t) {
     console.error("about to write to "+itw)
@@ -35,4 +29,9 @@ test('clobber', function (t) {
         t.equal(err.code, 'ENOTDIR');
         t.end();
     });
+});
+
+test('cleanup', function(t) {
+  testUtils.cleanup(tmpDir);
+  t.end();
 });

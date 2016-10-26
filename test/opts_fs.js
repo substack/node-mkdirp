@@ -1,19 +1,18 @@
 var mkdirp = require('../');
 var path = require('path');
 var test = require('tap').test;
+var testUtils = require('./utils/');
 var mockfs = require('mock-fs');
 var _0777 = parseInt('0777', 8);
 var _0755 = parseInt('0755', 8);
 
 test('opts.fs', function (t) {
     t.plan(5);
-    
-    var x = Math.floor(Math.random() * Math.pow(16,4)).toString(16);
-    var y = Math.floor(Math.random() * Math.pow(16,4)).toString(16);
-    var z = Math.floor(Math.random() * Math.pow(16,4)).toString(16);
-    
-    var file = '/beep/boop/' + [x,y,z].join('/');
+
     var xfs = mockfs.fs();
+    testUtils.setFS(xfs);
+
+    var file = testUtils.randomDeepFile('/beep/boop/', 3, 4);
     
     mkdirp(file, { fs: xfs, mode: _0755 }, function (err) {
         t.ifError(err);

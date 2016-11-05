@@ -10,11 +10,21 @@ Like `mkdir -p`, but in node.js!
 
 ```js
 var mkdirp = require('mkdirp');
-    
-mkdirp('/tmp/foo/bar/baz', function (err) {
+
+// Callback API
+mkdirp('/tmp/foo/bar/baz', function (err, made) {
     if (err) console.error(err)
     else console.log('pow!')
 });
+
+// Promise API
+mkdirp('/tmp/foo/bar/baz')
+  .then(function (made) {
+    console.log('pow!')
+  })
+  .catch(function (err) {
+    console.error(err)
+  })
 ```
 
 Output
@@ -31,7 +41,7 @@ And now /tmp/foo/bar/baz exists, huzzah!
 var mkdirp = require('mkdirp');
 ```
 
-## mkdirp(dir, opts, cb)
+## mkdirp(dir, opts[, cb]) => Promise
 
 Create a new directory and any necessary subdirectories at `dir` with octal
 permission string `opts.mode`. If `opts` is a non-object, it will be treated as
@@ -39,8 +49,13 @@ the `opts.mode`.
 
 If `opts.mode` isn't specified, it defaults to `0777 & (~process.umask())`.
 
-`cb(err, made)` fires with the error or the first directory `made`
-that had to be created, if any.
+This library supports callbacks and promises.
+
+If `cb` is supplied, it will be called with `cb(err, made)` where `err` is the
+error — if any — `made` is the first directory created — once again, if any.
+
+If `cb` is undefined, a promise is returned that resolves with `made`, and rejects
+with `err`.
 
 You can optionally pass in an alternate `fs` implementation by passing in
 `opts.fs`. Your implementation should have `opts.fs.mkdir(path, mode, cb)` and

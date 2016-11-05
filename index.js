@@ -5,12 +5,15 @@ var _0777 = parseInt('0777', 8);
 module.exports = mkdirP.mkdirp = mkdirP.mkdirP = mkdirP;
 
 function mkdirP (p, opts, f, made) {
-    if (typeof opts === 'function') {
-        f = opts;
-        opts = {};
-    }
-    else if (!opts || typeof opts !== 'object') {
-        opts = { mode: opts };
+    switch (typeof opts) {
+        case 'object':
+            break;
+        case 'function':
+            f = opts;
+            opts = {};
+            break;
+        default:
+            opts = { mode: opts };
     }
     
     var mode = opts.mode;
@@ -20,35 +23,49 @@ function mkdirP (p, opts, f, made) {
         mode = _0777 & (~process.umask());
     }
     if (!made) made = null;
-    
-    var cb = f || function () {};
-    p = path.resolve(p);
-    
-    xfs.mkdir(p, mode, function (er) {
-        if (!er) {
-            made = made || p;
-            return cb(null, made);
-        }
-        switch (er.code) {
-            case 'ENOENT':
-                mkdirP(path.dirname(p), opts, function (er, made) {
-                    if (er) cb(er, made);
-                    else mkdirP(p, opts, cb, made);
-                });
-                break;
 
-            // In the case of any other error, just see if there's a dir
-            // there already.  If so, then hooray!  If not, then something
-            // is borked.
-            default:
-                xfs.stat(p, function (er2, stat) {
-                    // if the stat fails, then that's super weird.
-                    // let the original error be the failure reason.
-                    if (er2 || !stat.isDirectory()) cb(er, made)
-                    else cb(null, made);
-                });
-                break;
+    return new Promise(function (resolve, reject) {
+      var cb = function (err, made) {
+        if (f) {
+          // unhandled promise rejections are deprecated,
+          // prevent fatal error for users using callback API
+          resolve();
+          f(err, made);
+        } else if (err) {
+          reject(err);
+        } else {
+          resolve(made);
         }
+      };
+
+      p = path.resolve(p);
+
+      xfs.mkdir(p, mode, function (er) {
+          if (!er) {
+              made = made || p;
+              return cb(null, made);
+          }
+          switch (er.code) {
+              case 'ENOENT':
+                  mkdirP(path.dirname(p), opts, function (er, made) {
+                      if (er) cb(er, made);
+                      else mkdirP(p, opts, cb, made);
+                  });
+                  break;
+
+              // In the case of any other error, just see if there's a dir
+              // there already.  If so, then hooray!  If not, then something
+              // is borked.
+              default:
+                  xfs.stat(p, function (er2, stat) {
+                      // if the stat fails, then that's super weird.
+                      // let the original error be the failure reason.
+                      if (er2 || !stat.isDirectory()) cb(er, made)
+                      else cb(null, made);
+                  });
+                  break;
+          }
+      });
     });
 }
 

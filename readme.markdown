@@ -31,7 +31,7 @@ And now /tmp/foo/bar/baz exists, huzzah!
 var mkdirp = require('mkdirp');
 ```
 
-## mkdirp(dir, opts, cb)
+## mkdirp(dir, [opts], cb)
 
 Create a new directory and any necessary subdirectories at `dir` with octal
 permission string `opts.mode`. If `opts` is a non-object, it will be treated as

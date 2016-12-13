@@ -10,7 +10,7 @@ var argv = minimist(process.argv.slice(2), {
 });
 if (argv.help) {
     fs.createReadStream(__dirname + '/usage.txt').pipe(process.stdout);
-    process.exit(1);
+    process.exit(0);
 }
 
 var paths = argv._.slice();

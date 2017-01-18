@@ -28,6 +28,11 @@ function mkdirP (p, opts, f, made) {
         if (!er) {
             made = made || p;
             return cb(null, made);
+        }else if ( p === path.dirname(p) ){
+            // if "p" contains non-existent disk on Windows
+            // (example: "Y:\" on most computers)
+            // return error immediately to avoid infinite recursion
+            return cb(er, made);
         }
         switch (er.code) {
             case 'ENOENT':

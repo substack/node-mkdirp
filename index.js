@@ -31,12 +31,15 @@ function mkdirP (p, opts, f, made) {
         }
         switch (er.code) {
             case 'ENOENT':
-                if ( p === path.dirname(p) ){
-                    // if "p" contains non-existent disk on Windows
-                    // (example: "Y:\" on most computers)
-                    // return error immediately to avoid infinite recursion
+                if (p === path.dirname(p)) {
+                    // If "p" contains non-existent disk on Windows,
+                    // return error immediately to avoid infinite recursion.
+                    // For example on Windows, a mounted disk could become
+                    // unmounted accidentally due to network issues.
+                    // The root directory becomes non-existent in that case.
                     return cb(er, made);
-                }else{
+                }
+                else {
                   mkdirP(path.dirname(p), opts, function (er, made) {
                       if (er) cb(er, made);
                       else mkdirP(p, opts, cb, made);

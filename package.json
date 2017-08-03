@@ -22,6 +22,6 @@
     "mock-fs": "^3.7.0",
     "tap": "^5.4.2"
   },
-  "bin": "bin/cmd.js",
+  "bin": "./bin/cmd.js",
   "license": "MIT"
 }

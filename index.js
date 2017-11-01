@@ -31,10 +31,14 @@ function mkdirP (p, opts, f, made) {
         }
         switch (er.code) {
             case 'ENOENT':
-                mkdirP(path.dirname(p), opts, function (er, made) {
-                    if (er) cb(er, made);
-                    else mkdirP(p, opts, cb, made);
-                });
+                if (err.message.indexOf('null bytes') !== -1) { // may throw "Path must be a string without null bytes"
+                    cb(er, made);
+                } else {
+                    mkdirP(path.dirname(p), opts, function (er, made) {
+                        if (er) cb(er, made);
+                        else mkdirP(p, opts, cb, made);
+                    });
+                }
                 break;
 
             // In the case of any other error, just see if there's a dir

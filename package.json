@@ -19,8 +19,8 @@
     "minimist": "0.0.8"
   },
   "devDependencies": {
-    "mock-fs": "^3.7.0",
-    "tap": "^5.4.2"
+    "mock-fs": "^4.4.2",
+    "tap": "^11.0.0"
   },
   "bin": "bin/cmd.js",
   "license": "MIT"

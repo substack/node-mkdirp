@@ -2,7 +2,9 @@
 
 Like `mkdir -p`, but in node.js!
 
-[![build status](https://secure.travis-ci.org/substack/node-mkdirp.png)](http://travis-ci.org/substack/node-mkdirp)
+[![npm](https://badgen.net/npm/v/mkdirp)](https://www.npmjs.com/package/mkdirp)
+[![install size](https://badgen.net/packagephobia/install/mkdirp)](https://packagephobia.now.sh/result?p=mkdirp)
+[![build status](https://badgen.net/travis/substack/node-mkdirp)](http://travis-ci.org/substack/node-mkdirp)
 
 # example
 

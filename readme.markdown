@@ -81,15 +81,27 @@ OPTIONS are:
 
 # install
 
-With [npm](http://npmjs.org) do:
+### With [Yarn](https://yarnpkg.com) (recommended), do:
 
+```bash
+yarn add mkdirp
 ```
+
+to get the library, or
+
+```bash
+yarn global add mkdirp
+```
+
+### With [npm](https://npmjs.org), do:
+
+```bash
 npm install mkdirp
 ```
 
 to get the library, or
 
-```
+```bash
 npm install -g mkdirp
 ```
 

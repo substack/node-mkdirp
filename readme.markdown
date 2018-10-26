@@ -109,4 +109,4 @@ to get the command.
 
 # license
 
-MIT
+[MIT](https://choosealicense.com/licenses/mit/)

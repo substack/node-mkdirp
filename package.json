@@ -12,6 +12,10 @@
     "type": "git",
     "url": "https://github.com/substack/node-mkdirp.git"
   },
+  "files": [
+    "bin",
+    "index.js"
+  ],
   "scripts": {
     "test": "tap test/*.js"
   },

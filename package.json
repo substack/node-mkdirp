@@ -16,11 +16,11 @@
     "test": "tap test/*.js"
   },
   "dependencies": {
-    "minimist": "0.0.8"
+    "minimist": "0.2.0"
   },
   "devDependencies": {
-    "mock-fs": "^3.7.0",
-    "tap": "^5.4.2"
+    "mock-fs": "3.12.1",
+    "tap": "5.8.0"
   },
   "bin": "bin/cmd.js",
   "license": "MIT"

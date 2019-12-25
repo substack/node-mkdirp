@@ -31,7 +31,12 @@ function mkdirP (p, opts, f, made) {
         }
         switch (er.code) {
             case 'ENOENT':
-                mkdirP(path.dirname(p), opts, function (er, made) {
+                var np = path.dirname(p);
+                if(np === p){
+                    //avoid loop!!
+                    return cb(er, made);
+                }
+                mkdirP(np, opts, function (er, made) {
                     if (er) cb(er, made);
                     else mkdirP(p, opts, cb, made);
                 });

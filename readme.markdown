@@ -1,3 +1,6 @@
+# mkdirp has moved!
+Please go to [https://github.com/isaacs/node-mkdirp](https://github.com/isaacs/node-mkdirp). Version 0.5.1 was the last release from this repo.
+
 # mkdirp
 
 Like `mkdir -p`, but in node.js!
